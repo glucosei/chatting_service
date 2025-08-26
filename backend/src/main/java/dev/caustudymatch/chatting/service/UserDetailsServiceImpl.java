@@ -1,14 +1,14 @@
 package dev.caustudymatch.chatting.service;
 
+import java.util.Optional;
+
 import dev.caustudymatch.chatting.domain.AppUser;
 import dev.caustudymatch.chatting.domain.AppUserRepository;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -21,17 +21,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<AppUser> user = repository.findByUsername(username);
-
-        User.UserBuilder builder = null;
-        if(user.isPresent()) {
+        UserBuilder builder = null;
+        if (user.isPresent()) {
             AppUser currentUser = user.get();
-            builder = User.withUsername(username);
+            builder = org.springframework.security.core.userdetails.User.withUsername(username);
             builder.password(currentUser.getPassword());
             builder.roles(currentUser.getRole());
         } else {
-            throw new UsernameNotFoundException("User not found!");
+            throw new UsernameNotFoundException("User not found.");
         }
-
         return builder.build();
     }
 }

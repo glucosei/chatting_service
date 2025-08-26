@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Chatroom {
@@ -13,13 +14,17 @@ public class Chatroom {
 
     private String title;
 
+    @ManyToMany(mappedBy = "chatrooms")
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<AppUser> participants;
+    private Set<AppUser> participants;
 
-    public Chatroom(String title, List<AppUser> participants) {
+    public Chatroom(String title, Set<AppUser> participants) {
         this.title = title;
         this.participants = participants;
+    }
+
+    public Chatroom() {
+
     }
 
     public String getTitle() {
@@ -30,11 +35,11 @@ public class Chatroom {
         this.title = title;
     }
 
-    public List<AppUser> getParticipants() {
+    public Set<AppUser> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(List<AppUser> participants) {
+    public void setParticipants(Set<AppUser> participants) {
         this.participants = participants;
     }
 }

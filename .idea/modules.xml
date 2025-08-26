@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/chatting.main.iml" filepath="$PROJECT_DIR$/.idea/modules/chatting.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/chatting_service.iml" filepath="$PROJECT_DIR$/.idea/chatting_service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/dev.caustudymatch.chatting.chatting.main.iml" filepath="$PROJECT_DIR$/.idea/modules/dev.caustudymatch.chatting.chatting.main.iml" />
     </modules>
   </component>
 </project>

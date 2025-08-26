@@ -29,14 +29,11 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             String user = jwtService.getAuthUser(request);
 
             // 인증하기
-            Authentication authentication =
-                    new UsernamePasswordAuthenticationToken(user, null,
-                            java.util.Collections.emptyList());
+            Authentication authentication = new UsernamePasswordAuthenticationToken(user, null,
+                    java.util.Collections.emptyList());
 
-            SecurityContextHolder.getContext()
-                    .setAuthentication(authentication);
-
-            filterChain.doFilter(request, response);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
+        filterChain.doFilter(request, response);
     }
 }

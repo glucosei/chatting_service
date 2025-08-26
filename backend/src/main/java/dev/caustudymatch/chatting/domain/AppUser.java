@@ -2,6 +2,11 @@ package dev.caustudymatch.chatting.domain;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @Entity
 public class AppUser {
     @Id
@@ -17,6 +22,28 @@ public class AppUser {
 
     @Column(nullable = false)
     private String role;
+
+    public Set<Chatroom> getChatrooms() {
+        return chatrooms;
+    }
+
+    public void joinChatroom(Chatroom chatroom) {
+        this.chatrooms.add(chatroom);
+        chatroom.getParticipants().add(this); // 양방향 동기화
+    }
+
+    public void setChatrooms(Set<Chatroom> chatrooms) {
+        this.chatrooms = chatrooms;
+    }
+
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name="chatroom_participants",joinColumns =
+            {
+                    @JoinColumn(name="participantid")
+            }, inverseJoinColumns = {
+            @JoinColumn(name = "id")
+    })
+    private Set<Chatroom> chatrooms = new HashSet<>();
 
     public AppUser() {}
 
