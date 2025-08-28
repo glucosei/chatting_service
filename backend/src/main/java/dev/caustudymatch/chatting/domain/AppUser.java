@@ -1,51 +1,45 @@
 package dev.caustudymatch.chatting.domain;
 
 import jakarta.persistence.*;
+import lombok.*;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
-public class AppUser {
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+public class AppUser extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable=false, updatable=false)
     private Long id;
 
+    @Setter
+    @Getter
     @Column(nullable = false, unique = true)
     private String username;
 
+    @Setter
+    @Getter
     @Column(nullable = false)
     private String password;
 
+    @Setter
+    @Getter
     @Column(nullable = false)
     private String role;
 
-    public Set<Chatroom> getChatrooms() {
-        return chatrooms;
-    }
-
-    public void joinChatroom(Chatroom chatroom) {
-        this.chatrooms.add(chatroom);
-        chatroom.getParticipants().add(this); // 양방향 동기화
-    }
-
-    public void setChatrooms(Set<Chatroom> chatrooms) {
-        this.chatrooms = chatrooms;
-    }
-
+    @Getter
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name="chatroom_participants",joinColumns =
             {
-                    @JoinColumn(name="participantid")
+                    @JoinColumn(name="participant_id")
             }, inverseJoinColumns = {
-            @JoinColumn(name = "id")
+            @JoinColumn(name = "chatroom_id")
     })
     private Set<Chatroom> chatrooms = new HashSet<>();
-
-    public AppUser() {}
 
     public AppUser(String username, String password, String role)
     {
@@ -55,35 +49,12 @@ public class AppUser {
         this.role = role;
     }
 
-    public Long getId() {
-        return id;
+    public void joinChatroom(Chatroom chatroom) {
+        this.chatrooms.add(chatroom);
+        chatroom.getParticipants().add(this);
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
+    public boolean leaveChatroom(Chatroom chatroom) {
+        return chatrooms.remove(chatroom);
     }
 }
