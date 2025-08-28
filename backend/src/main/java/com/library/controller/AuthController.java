@@ -26,16 +26,16 @@ public class AuthController {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-
-        String token = jwtTokenProvider.createToken(
-                request.getUsername(),
-                List.of("ROLE_USER") // 사용자 권한 예시
-        );
-
-        return ResponseEntity.ok(Map.of("token", token));
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+//        Authentication auth = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+//
+//        String token = jwtTokenProvider.createToken(
+//                request.getUsername(),
+//                List.of("ROLE_USER") // 사용자 권한 예시
+//        );
+//
+//        return ResponseEntity.ok(Map.of("token", token));
+//    }
 }
