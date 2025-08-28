@@ -49,10 +49,12 @@ public class Application implements CommandLineRunner {
         Chat chat1 = new Chat(user, "hi");
         Chat chat2 = new Chat(admin, "hello");
 
+        chatRepository.saveAll(Arrays.asList(chat1, chat2));
+
         c1.addChat(chat1);
         c1.addChat(chat2);
 
-        chatRepository.saveAll(Arrays.asList(chat1, chat2));
+        chatroomRepository.saveAll(Arrays.asList(c1, c2));
     }
 }
 

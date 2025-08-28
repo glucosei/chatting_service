@@ -15,7 +15,7 @@ public class Chat extends BaseEntity {
     @Setter
     @Getter
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn
     private AppUser user;
 
     @Setter

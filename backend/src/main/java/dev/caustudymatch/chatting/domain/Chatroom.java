@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,7 +30,7 @@ public class Chatroom extends BaseEntity {
 
     @Getter
     @OneToMany(fetch = FetchType.LAZY)
-    private List<Chat> chats = List.of();
+    private List<Chat> chats = new ArrayList<>();
 
     public Chatroom(String title) {
         this.title = title;
