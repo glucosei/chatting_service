@@ -2,17 +2,11 @@ package dev.caustudymatch.chatting.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
 
 import java.util.List;
 import java.util.Set;
 
-
-@Getter
 @Entity
-@Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Chatroom {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,4 +18,28 @@ public class Chatroom {
     @JsonIgnore
     private Set<AppUser> participants;
 
+    public Chatroom(String title, Set<AppUser> participants) {
+        this.title = title;
+        this.participants = participants;
+    }
+
+    public Chatroom() {
+
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Set<AppUser> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(Set<AppUser> participants) {
+        this.participants = participants;
+    }
 }
