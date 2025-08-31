@@ -1,6 +1,8 @@
 import './App.css';
 import axios from 'axios';
 import {AppBar, Box, Button, Container, Toolbar, Typography} from "@mui/material";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import ChatroomList from "./ChatroomList.tsx";
 
 function selectData() {
   axios.post('/testData', ["가", "나", "다"], {
@@ -16,10 +18,21 @@ function selectData() {
   });
 }
 
-function App() {
+function getRooms() {
+    axios.get("http://localhost:8080/api/chatrooms")
+        .then(function (res) {
+            console.log(res);
+        })
+        .catch(function (err) {
+            console.error(err);
+        })
+}
 
+const queryClient = new QueryClient();
+
+function App() {
     return (
-        <Container>
+        <Container maxWidth="xl">
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" align="center">
@@ -37,9 +50,12 @@ function App() {
                     한번 아래 버튼을 눌러보시지
                 </Typography>
                 <Box sx={{ m: 2 }} />
-                <Button sx={{ mt: 3, mb: 2, backgroundColor: "primary.main", color: "white"}} onClick={() => selectData()}>
+                <Button sx={{ mt: 3, mb: 2, backgroundColor: "primary.main", color: "white"}} onClick={() => getRooms()}>
                     조회
                 </Button>
+                <QueryClientProvider client={queryClient}>
+                    <ChatroomList />
+                </QueryClientProvider>
             </Box>
         </Container>
     );
