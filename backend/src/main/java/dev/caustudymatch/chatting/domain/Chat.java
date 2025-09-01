@@ -1,5 +1,6 @@
 package dev.caustudymatch.chatting.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,6 +17,7 @@ public class Chat extends BaseEntity {
     @Getter
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     private AppUser user;
 
     @Setter

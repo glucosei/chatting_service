@@ -3,6 +3,7 @@ import axios from 'axios';
 import {AppBar, Box, Button, Container, Toolbar, Typography} from "@mui/material";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import ChatroomList from "./ChatroomList.tsx";
+import {useNavigate} from "react-router-dom";
 
 function selectData() {
   axios.post('/testData', ["가", "나", "다"], {
@@ -18,6 +19,23 @@ function selectData() {
   });
 }
 
+function login() {
+    axios.post('/login', {
+        username: 'admin',
+        password: 'admin'
+    }, {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(function (res) {
+        console.log(res);
+    })
+    .catch(function (err) {
+        console.error(err);
+    });
+}
+
 function getRooms() {
     axios.get("http://localhost:8080/api/chatrooms")
         .then(function (res) {
@@ -31,6 +49,7 @@ function getRooms() {
 const queryClient = new QueryClient();
 
 function App() {
+    const navigate = useNavigate();
     return (
         <Container maxWidth="xl">
             <AppBar position="static">
@@ -52,6 +71,12 @@ function App() {
                 <Box sx={{ m: 2 }} />
                 <Button sx={{ mt: 3, mb: 2, backgroundColor: "primary.main", color: "white"}} onClick={() => getRooms()}>
                     조회
+                </Button>
+                <Button sx={{ mt: 3, mb: 2, backgroundColor: "primary.main", color: "white"}} onClick={() => navigate("/register")}>
+                    회원가입 페이지로 이동
+                </Button>
+                <Button sx={{ mt: 3, mb: 2, backgroundColor: "primary.main", color: "white"}} onClick={() => navigate("/login")}>
+                    로그인 페이지로 이동
                 </Button>
                 <QueryClientProvider client={queryClient}>
                     <ChatroomList />
