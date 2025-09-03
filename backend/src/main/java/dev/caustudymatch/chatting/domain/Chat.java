@@ -4,28 +4,26 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
+@Getter
 @Entity
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Chat extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
-    @Getter
-    @ManyToOne
-    @JoinColumn
-    @JsonIgnore
-    private AppUser user;
+    private String username;
 
-    @Setter
-    @Getter
     private String message;
 
-    public Chat(AppUser user, String message) {
-        this.user = user;
-        this.message = message;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chatroom_id")
+    private Chatroom chatroom;
+
 }

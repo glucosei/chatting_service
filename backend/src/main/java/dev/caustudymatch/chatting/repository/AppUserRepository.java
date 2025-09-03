@@ -1,5 +1,6 @@
-package dev.caustudymatch.chatting.domain;
+package dev.caustudymatch.chatting.repository;
 
+import dev.caustudymatch.chatting.domain.AppUser;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

@@ -9,38 +9,27 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Getter
 @Entity
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Chatroom extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
-    @Getter
+
     private String title;
 
-    @Setter
-    @Getter
-    @ManyToMany(mappedBy = "chatrooms")
+
+    @ManyToMany(mappedBy = "chatRooms")
     @JsonIgnore
     private Set<AppUser> participants = new HashSet<>();
 
-    @Getter
-    @OneToMany(fetch = FetchType.LAZY)
+
+    @OneToMany(mappedBy = "chatroom")
+    @JsonIgnore
     private List<Chat> chats = new ArrayList<>();
 
-    public Chatroom(String title) {
-        this.title = title;
-    }
-
-    public void addChat(Chat chat) {
-        chats.add(chat);
-    }
-
-    public boolean deleteChat(Chat chat) {
-        return chats.remove(chat);
-    }
 }

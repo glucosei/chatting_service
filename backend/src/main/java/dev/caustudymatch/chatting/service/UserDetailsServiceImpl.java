@@ -3,7 +3,7 @@ package dev.caustudymatch.chatting.service;
 import java.util.Optional;
 
 import dev.caustudymatch.chatting.domain.AppUser;
-import dev.caustudymatch.chatting.domain.AppUserRepository;
+import dev.caustudymatch.chatting.repository.AppUserRepository;
 import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
