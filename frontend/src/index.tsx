@@ -5,6 +5,8 @@ import App from './App.tsx';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Login from "./Login.tsx";
 import Register from "./Register.tsx";
+import ChatroomListPage from "./ChatroomListPage.tsx";
+import ChatPage from "./ChatPage.tsx";
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -13,11 +15,9 @@ createRoot(document.getElementById('root')!).render(
                 <Route path='/' element={<App />}></Route>
                 <Route path='/login' element={<Login />}></Route>
                 <Route path='/register' element={<Register />}></Route>
+                <Route path='/chatrooms' element={<ChatroomListPage />}></Route>
+                <Route path='/chat/:chatroomTitle' element={<ChatPage />}></Route>
             </Routes>
         </BrowserRouter>
     </StrictMode>,
 )
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

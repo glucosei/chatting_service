@@ -6,6 +6,7 @@ import lombok.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter
 @Entity
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -16,22 +17,19 @@ public class AppUser extends BaseEntity {
     @Column(nullable=false, updatable=false)
     private Long id;
 
-    @Setter
-    @Getter
+
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Setter
-    @Getter
+
     @Column(nullable = false)
     private String password;
 
-    @Setter
-    @Getter
+
     @Column(nullable = false)
     private String role;
 
-    @Getter
+
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name="chatroom_participants",joinColumns =
             {
@@ -39,22 +37,7 @@ public class AppUser extends BaseEntity {
             }, inverseJoinColumns = {
             @JoinColumn(name = "chatroom_id")
     })
-    private Set<Chatroom> chatrooms = new HashSet<>();
+    private Set<Chatroom> chatRooms = new HashSet<>();
 
-    public AppUser(String username, String password, String role)
-    {
-        super();
-        this.username = username;
-        this.password = password;
-        this.role = role;
-    }
 
-    public void joinChatroom(Chatroom chatroom) {
-        this.chatrooms.add(chatroom);
-        chatroom.getParticipants().add(this);
-    }
-
-    public boolean leaveChatroom(Chatroom chatroom) {
-        return chatrooms.remove(chatroom);
-    }
 }

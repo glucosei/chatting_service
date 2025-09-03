@@ -25,19 +25,32 @@ function Register() {
     }
 
     const handleRegistration = () => {
-        if(user.password != passwordCheck || user.username == '' || user.password == '') {
+        if (user.password !== passwordCheck) {
             setOpen(true);
-        } else {
-            axios.post("http://localhost:8080/register", user, {
-                headers: {'Content-Type': "application/json"}
-            })
-                .then(res => {
-                    if(window.confirm("회원가입이 완료되었습니다. 로그인 창으로 이동합니까?")) {
-                        navigate("/login");
-                    }
-                })
-                .catch(err => setOpen(true));
+            // 사용자에게 비밀번호가 일치하지 않는다는 메시지를 보여주는 것이 더 좋음
+            // setMessage("비밀번호가 일치하지 않습니다.");
+            return;
         }
+
+        if (user.username === '' || user.password === '') {
+            setOpen(true);
+            // setMessage("사용자 이름과 비밀번호를 입력해주세요.");
+            return;
+        }
+
+        axios.post("http://localhost:8080/register", user, {
+            headers: {'Content-Type': "application/json"}
+        })
+            .then(res => {
+                if(window.confirm("회원가입이 완료되었습니다. 로그인 창으로 이동합니까?")) {
+                    navigate("/login");
+                }
+            })
+            .catch(err => {
+                setOpen(true);
+                // 에러 메시지를 콘솔에 출력해 디버깅하는 것이 좋음
+                console.error("회원가입 실패:", err);
+            });
     }
 
     return (

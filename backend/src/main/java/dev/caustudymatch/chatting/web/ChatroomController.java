@@ -1,41 +1,37 @@
 package dev.caustudymatch.chatting.web;
 
-import dev.caustudymatch.chatting.domain.AppUser;
-import dev.caustudymatch.chatting.domain.AppUserRepository;
+
+import dev.caustudymatch.chatting.domain.Chat;
 import dev.caustudymatch.chatting.domain.Chatroom;
-import dev.caustudymatch.chatting.domain.ChatroomRepository;
+import dev.caustudymatch.chatting.dto.ConnectRequest;
+import dev.caustudymatch.chatting.dto.ConnectResponse;
+import dev.caustudymatch.chatting.dto.CreateRequest;
+import dev.caustudymatch.chatting.service.ChatroomService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-import java.util.Optional;
+import java.util.List;
+
 
 @RestController
+@RequiredArgsConstructor
+@RequestMapping("/chatroom")
 public class ChatroomController {
-    private final AppUserRepository appUserRepository;
-    private final ChatroomRepository repository;
+    private final ChatroomService chatroomService;
 
-    public ChatroomController(AppUserRepository appUserRepository, ChatroomRepository repository) {
-        this.appUserRepository = appUserRepository;
-        this.repository = repository;
+    @PostMapping("/create")
+    public Chatroom createRoom(@RequestBody CreateRequest createRequest) {
+        return chatroomService.create(createRequest);
     }
 
-    @GetMapping("/room")
-    public Iterable<Chatroom> getRooms() {
-        return repository.findAll();
+    @PostMapping("/connect")
+    public List<ConnectResponse> connect(@RequestBody ConnectRequest connectRequest) {
+        return chatroomService.connect(connectRequest);
     }
 
-    @GetMapping("/chatroom/{username}")
-    public Iterable<Chatroom> getUserRooms(@PathVariable String username) {
-        Optional<AppUser> user = appUserRepository.findByUsername(username);
-        if(user.isPresent()) {
-            return user.get().getChatrooms();
-        } else {
-            return new HashSet<>();
-        }
+    @PostMapping("/select")
+    public List<Chatroom> selectChatRooms(){
+        return chatroomService.selectChatrooms();
     }
 
-    @GetMapping("/room/test")
-    public String getTest() {
-        return "ok";
-    }
 }
